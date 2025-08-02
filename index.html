@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>En İyi Pizzacı Kim?</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #005566, #E31837);
+            background-size: 200%;
+            animation: colorShift 8s ease infinite;
+        }
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+        }
+        h1 {
+            color: #E31837;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+        .option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+        #dominosBtn {
+            background-color: #005566;
+            color: white;
+        }
+        #pizzaHutBtn {
+            background-color: #D1121B;
+            color: white;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 22px;
+            color: #333;
+            min-height: 30px;
+        }
+        svg {
+            margin-bottom: 10px;
+        }
+        #dominosLogo {
+            transition: transform 0.5s;
+        }
+        .full-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 85, 102, 0.95);
+            z-index: 1000;
+        }
+        .full-screen svg {
+            transform: scale(5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>En iyi pizzacı kim?</h1>
+        <div class="options">
+            <div class="option">
+                <svg id="dominosLogo" width="80" height="80" viewBox="0 0 100 100">
+                    <rect x="10" y="10" width="80" height="80" fill="#005566"/>
+                    <circle cx="30" cy="30" r="15" fill="white"/>
+                    <circle cx="70" cy="30" r="15" fill="white"/>
+                    <circle cx="30" cy="70" r="15" fill="white"/>
+                </svg>
+                <button id="dominosBtn">Domino's</button>
+            </div>
+            <div class="option">
+                <svg id="pizzaHutLogo" width="80" height="80" viewBox="0 0 100 100">
+                    <rect x="10" y="10" width="80" height="80" fill="#D1121B"/>
+                    <path d="M50 20 L70 40 L50 60 L30 40 Z" fill="white"/>
+                    <circle cx="50" cy="40" r="10" fill="#D1121B"/>
+                </svg>
+                <button id="pizzaHutBtn">Pizza Hut</button>
+            </div>
+        </div>
+        <p id="message"></p>
+    </div>
+    <script>
+        let pizzaHutClicks = 0;
+        let scaleFactor = 1;
+
+        document.getElementById('dominosBtn').addEventListener('click', () => {
+            document.getElementById('message').textContent = 'Ağzının tadını biliyorsun! 😎';
+        });
+
+        document.getElementById('pizzaHutBtn').addEventListener('click', () => {
+            pizzaHutClicks++;
+            scaleFactor += 0.5;
+            const dominosLogo = document.getElementById('dominosLogo');
+            dominosLogo.style.transform = `scale(${scaleFactor})`;
+
+            const messages = [
+                'Gerçekten mi? 🤔',
+                'Sana inanamıyorum! 😲',
+                'Hem de Pizzalarımız bu kadar güzelken mi? 😜',
+                'Bence bize de bir şans vermen lazım! 😏'
+            ];
+
+            if (pizzaHutClicks <= 4) {
+                document.getElementById('message').textContent = messages[pizzaHutClicks - 1];
+            } else {
+                const container = document.querySelector('.container');
+                container.innerHTML = '<div class="full-screen"><svg id="dominosLogo" width="80" height="80" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" fill="#005566"/><circle cx="30" cy="30" r="15" fill="white"/><circle cx="70" cy="30" r="15" fill="white"/><circle cx="30" cy="70" r="15" fill="white"/></svg></div>';
+                setTimeout(() => {
+                    container.innerHTML = '<h1>Ağzının tadını biliyorsun! 😎</h1>';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
